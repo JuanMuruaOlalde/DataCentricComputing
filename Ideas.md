@@ -54,7 +54,11 @@ La idea es poder trabajar y compartir información sin miedo a virus ni trojanos
 
 - Cuando un programa necesita un recurso (memoria, almacenamiento, visualización, comunicaciones,...), ha de pedir a la parte de control que le suministre las particiones correspondientes para utilizar los recursos que necesite. Como dichos recursos están manejados por la parte de control, el programa envia/recibe peticiones a/de los recursos a través de esta. La parte de control se encarga de implementar un aislamiento estricto entre programas.
 
-- El almacenamiento de la parte ejecutable permanecerá en modo solo-lectura durante el funcionamiento habitual de la máquina. La escritura no será posible más que cuando se necesite instalar o actualizar un programa. Y siempre se deberá activar expresamente. A poder ser requiriendo algún medio físico para hacerlo (es decir, algo que no se pueda hacer "sin saberlo" en un momento "de despiste").
+- El almacenamiento de la parte ejecutable permanecerá en modo solo-lectura durante el funcionamiento habitual de la máquina. La escritura no será posible más que cuando se necesite instalar o actualizar un programa. Y siempre se deberá activar expresamente por parte de la persona usuaria del sistema. A poder ser requiriendo algún medio físico para hacerlo (es decir, algo que no se pueda hacer "sin saberlo" en un momento "de despiste").
+
+- Cada programa ha de tener el modo de verificar la autenticidad de las actualizaciones que reciba. Ha de poder probar que provienen de una fuente conocida de confianza. De una fuente que ya era conocida por el programa antes de la actualización.
+
+- La única manera de añadir nuevas fuentes conocidas de confianza a un programa será si provienen de una fuente de confianza ya conocida previamente por dicho programa. O si son introducidas expresamente por la persona usuaria del sistema. A poder ser requiriendo algún medio físico para hacerlo (es decir, algo que no se pueda hacer "sin saberlo" en un momento "de despiste").
 
 - Cualquier actualización en la parte de control y monitorización. Implica una actualización hardware, cambiar físicamente circuitos. A poder ser, ha de ser una actualización compleja de realizar (es decir, algo que no se pueda hacer "discretamente" aprovechando un momento en que las personas que manejan el equipo no se den cuenta.).
 
