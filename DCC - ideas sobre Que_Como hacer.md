@@ -1,12 +1,12 @@
-# Data Centric Computing
+# DCC (Data Centric Computing)
 
 ## Declaración de intenciones
 
-Se trata de diseñar y construir un sistema informático donde los datos son lo importante. Estando totalmente separados de los programas ejecutables que los manejan. Es decir, se contemplan dos tipos diferentes de contenidos:
+Se trata de diseñar y construir un sistema informático donde los datos son lo importante. Estando totalmente separados de los programas ejecutables que los manejan. Es decir, se contempla diferenciar completamente dos tipos de contenidos:
 
-- Datos (documentos, videos, audios,...) Son solo información, no pueden contener nada que ejecute instrucciones ni altere ningún otro dato en la máquina.
+- DATOS (documentos, videos, audios,...) Son solo información, no pueden contener nada que ejecute instrucciones ni altere ningún otro dato en la máquina.
 
-- Programas: Son las instrucciones que manejan los datos y permiten su visualización, edición, transmisión, almacenamiento,...
+- PROGRAMAS: Son las instrucciones que manejan los datos y permiten su visualización, edición, transmisión, almacenamiento,...
 
 Ambos tipos de contenido han de tratarse cada uno en su parte separada del sistema. Existiendo un aislamiento completo (físico) entre ambas partes. Para que en ningún momento pueda existir la más mínima duda de si algo es dato o programa. Los datos se tratan de un modo y los programas de otro, los datos circulan por unos circuitos y los programas por otros.
 
@@ -61,6 +61,56 @@ La idea es poder trabajar y compartir información sin miedo a virus ni trojanos
 - La única manera de añadir nuevas fuentes conocidas de confianza a un programa será si provienen de una fuente de confianza ya conocida previamente por dicho programa. O si son introducidas expresamente por la persona usuaria del sistema. A poder ser requiriendo algún medio físico para hacerlo (es decir, algo que no se pueda hacer "sin saberlo" en un momento "de despiste").
 
 - Cualquier actualización en la parte de control y monitorización. Implica una actualización hardware, cambiar físicamente circuitos. A poder ser, ha de ser una actualización compleja de realizar (es decir, algo que no se pueda hacer "discretamente" aprovechando un momento en que las personas que manejan el equipo no se den cuenta.).
+
+
+## Ideas clave relacionadas con la seguridad
+
+### Cosas que no funcionan
+
+- Seguridad por inconveniencia
+  
+  Pensar que el atacante va a abandonar por la cantidad de obstaculos que se pongan. Especialmente si esos obstaculos son muy visibles.
+  (Cuanto más visibles/previsibles sean, mejor se podrá preparar para superarlos.)
+
+- Seguridad por obscuridad
+
+  Pensar que el atacante no va a poder atacar aquello que no conoce o que no comprende.
+  (Si le interesa lo suficiente, ya se preocupará de obtener el conocimiento requerido.)
+
+- Seguridad por identidad
+
+  Pensar que algo es seguro porque conocemos su procedencia y confiamos en ella.
+  (Toda identidad puede llegar a ser suplantantada.)
+
+- Seguridad por vigilancia
+
+  Pensar que el atacante no va a intentarlo si tiene probabilidad de ser capturado en el intento.
+  (Los humanos somos muy malos prestando atención durante largos periodos de tiempo. Las máquinas pueden tener momentos de fallo. Es decir solo hay que esperar/propiciar un despiste en la vigilancia.)
+
+### Cosas que si funcionan
+
+- Principio de mínima confianza
+
+  Proporcionar a cada parte la información y la autoridad justas para llevar a cabo cada tarea que tenga encomendada. Ni más, ni menos. En caso de duda, pecar un poco de más (ya que un poco de menos no permite hacer la tarea.)
+  Aquí se aplica también lo de usar listas de cosas permitidas en lugar de listas de cosas prohibidas. Lo que no está expresamente permitido, está prohibido.
+
+- Compartimentalización (robusta división de tareas)
+
+  Ninguna parte puede tener más de una autoridad/información simultáneamente. En cada momento/tarea, solo ha de tener la autoridad/información que necesita. Así se evita que abuse de una autoridad/información concedida para una tarea en la realización de otra.
+
+- Defensa en profundidad
+
+  Tener previstas unas cuantas capas de protección para cada cosa protegida. Asi, si una capa falla, otra se encarga de contener el peligro. Cuantas más capas sean factibles, mejor.
+
+- Simpleza y claridad
+
+  Mejor algo pasivo (siempre está ahí), que algo activo (necesita un esfuerzo para estar ahí).
+
+  Mejor un solo procedimiento automátizado y sencillo de comprender/recordar. Que un montón de procedimientos manuales siguiendo una lista, (y peor aún si no se comprende el porqué de alguno de ellos).
+
+- Seguridad integrada
+
+  Pensada desde el principio junto con la funcionalidad/uso del sistema a proteger. Si la seguridad entorpece demasiado la funcionalidad, acabará siendo inútil porque los propios usuarios la torpedearan en pos de un uso más fácil del sistema.
 
 
 ## Ideas y reflexiones acerca de los mecanismos para aislar unas partes de otras
