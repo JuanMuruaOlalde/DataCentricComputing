@@ -94,6 +94,10 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
 
 [Modified Harvard architecture](https://en.wikipedia.org/wiki/Modified_Harvard_architecture)
 
+[Memory Tagged architecture](https://en.wikipedia.org/wiki/Tagged_architecture)
+
+[Executable-space protection](https://en.wikipedia.org/wiki/Executable-space_protection)
+
 [HDL - Hardware Description Language](https://en.wikipedia.org/wiki/Hardware_description_language)
 
 [Verilog - an hardware description language](https://en.wikipedia.org/wiki/Verilog)
