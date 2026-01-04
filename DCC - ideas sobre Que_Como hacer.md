@@ -167,3 +167,24 @@ Es útil por ejemplo para aislar secciones de archivo:
 - El contenido se introduce al archivo en soportes físicos de solo lectura. La única forma de alterar contenidos es mediante un acceso físico directo al almacén donde se almacenan dichos soportes.
 
 - Desde el exterior solo se pueden dar órdenes de mover cierto contenido a un dispositivo lector. Una copia de ese contenido se transmite al exterior a través de enlaces unidirecionales.
+
+# Algunos enlaces a recursos varios
+
+## Xous Operating System
+
+[Xous](https://xous.dev/)
+
+[The Xous Book](https://betrusted.io/xous-book/)
+
+[xous-core in Github](https://github.com/betrusted-io/xous-core)
+
+[Baochip](https://baochip.com/)
+
+[Baochip in Github](https://github.com/baochip)
+
+[Conference: Xous, A Pure Rust Rethink of the Embedded Operating System](https://media.ccc.de/v/39c3-xous-a-pure-rust-rethink-of-the-embedded-operating-system#t=0)
+
+## Building hardware
+
+[39C3 - Building hardware - easier than ever - harder than it should be](https://www.youtube.com/watch?v=7rm9vUGfEws)
+
