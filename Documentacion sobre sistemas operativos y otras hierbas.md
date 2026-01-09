@@ -116,3 +116,25 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
  
 ## Algunos enlaces a documentación variada
 
+### Rust - RaspberryPi OS
+
+[rust-raspberrypi-OS-tutorials](https://github.com/rust-embedded/rust-raspberrypi-OS-tutorials)
+
+### Xous Operating System
+
+[Xous](https://xous.dev/)
+
+[The Xous Book](https://betrusted.io/xous-book/)
+
+[xous-core in Github](https://github.com/betrusted-io/xous-core)
+
+[Baochip](https://baochip.com/)
+
+[Baochip in Github](https://github.com/baochip)
+
+[Conference: Xous, A Pure Rust Rethink of the Embedded Operating System](https://media.ccc.de/v/39c3-xous-a-pure-rust-rethink-of-the-embedded-operating-system#t=0)
+
+### Building hardware
+
+[39C3 - Building hardware - easier than ever - harder than it should be](https://www.youtube.com/watch?v=7rm9vUGfEws)
+
