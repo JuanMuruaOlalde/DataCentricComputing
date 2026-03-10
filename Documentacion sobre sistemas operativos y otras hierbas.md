@@ -113,12 +113,18 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
 [Arm Cortex‑A710 Core Technical Reference Manual](https://developer.arm.com/documentation/101800/0201/Technical-overview/Core-components)
 
 
+
+## Software: bibliotecas Rust
+
+[bootloader](https://crates.io/crates/bootloader)
+
+ 
  
 ## Algunos enlaces a documentación variada
 
-### Rust - RaspberryPi OS
+### Philipp Oppermanns's blog
 
-[rust-raspberrypi-OS-tutorials](https://github.com/rust-embedded/rust-raspberrypi-OS-tutorials)
+[Writing an OS in Rust](https://os.phil-opp.com/)
 
 ### Xous Operating System
 
@@ -133,6 +139,16 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
 [Baochip in Github](https://github.com/baochip)
 
 [Conference: Xous, A Pure Rust Rethink of the Embedded Operating System](https://media.ccc.de/v/39c3-xous-a-pure-rust-rethink-of-the-embedded-operating-system#t=0)
+
+### Rust - RaspberryPi OS
+
+[rust-raspberrypi-OS-tutorials](https://github.com/rust-embedded/rust-raspberrypi-OS-tutorials)
+
+
+### Ariel OS
+
+[Ariel OS](https://ariel-os.org/)
+
 
 ### Building hardware
 
