@@ -1,6 +1,6 @@
 # DCC (Data Centric Computing)
 
-## Declaración de intenciones
+# Declaración de intenciones
 
 Se trata de diseñar y construir un sistema informático donde los datos son lo importante. Estando totalmente separados de los programas ejecutables que los manejan. Es decir, se contempla diferenciar completamente dos tipos de contenidos:
 
@@ -18,7 +18,7 @@ Obviamente, solo pueden intercambiarse datos (información). No puede haber nada
 
 La idea es poder trabajar y compartir información sin miedo a virus ni trojanos ni otros programas maliciosos.
 
-## Nombre para el proyecto
+# Nombre para el proyecto
 
 - SIC (Standard Isolable Computer)
 
@@ -30,7 +30,7 @@ La idea es poder trabajar y compartir información sin miedo a virus ni trojanos
   Centric  
   Computing  
 
-## Especificaciones básicas
+# Especificaciones básicas
 
 - Se han de contemplar dos tipos de equipos:
 
@@ -63,9 +63,9 @@ La idea es poder trabajar y compartir información sin miedo a virus ni trojanos
 - Cualquier actualización en la parte de control y monitorización. Implica una actualización hardware, cambiar físicamente circuitos. A poder ser, ha de ser una actualización compleja de realizar (es decir, algo que no se pueda hacer "discretamente" aprovechando un momento en que las personas que manejan el equipo no se den cuenta.).
 
 
-## Ideas clave relacionadas con la seguridad
+# Ideas clave relacionadas con la seguridad
 
-### Cosas que no funcionan
+## Cosas que no funcionan
 
 - Seguridad por inconveniencia
   
@@ -87,7 +87,7 @@ La idea es poder trabajar y compartir información sin miedo a virus ni trojanos
   Pensar que el atacante no va a intentarlo si tiene probabilidad de ser capturado en el intento.
   (Los humanos somos muy malos prestando atención durante largos periodos de tiempo. Las máquinas pueden tener momentos de fallo. Es decir solo hay que esperar/propiciar un despiste en la vigilancia.)
 
-### Cosas que si funcionan
+## Cosas que si funcionan
 
 - Principio de mínima confianza
 
@@ -113,13 +113,17 @@ La idea es poder trabajar y compartir información sin miedo a virus ni trojanos
   Pensada desde el principio junto con la funcionalidad/uso del sistema a proteger. Si la seguridad entorpece demasiado la funcionalidad, acabará siendo inútil porque los propios usuarios la torpedearan en pos de un uso más fácil del sistema.
 
 
-## Ideas y reflexiones acerca de los mecanismos para aislar unas partes de otras
+# Ideas y reflexiones acerca de mecanismos para compartimentalizar y aislar unas partes de otras
 
-### Aislamiento entre programas
+## Aislamiento entre programas ejecutándose en el sistema
 
-Cualquier mecanismo de comunicación software que comparta buses hardware, ha de basarse en criptografia para garantizar que ningún tercero malicioso esté escuchando el bus compartido cuando no debe o intente alterar comunicaciones que no le corresponden. Toda criptografia es vulnerable a un criptoanálisis suficientemente potente.
+Cualquier mecanismo de comunicación software que comparta buses hardware, puede  basarse en criptografia para garantizar que ningún tercero malicioso:
+- Esté escuchando el bus compartido cuando no debe. 
+- Intente alterar comunicaciones que no le corresponden. 
 
-La única forma fiable de aislamiento es el hardware. No se puede espiar lo que no se puede escuchar. Pero para ello, la parte de control tendria que contar con un bus dedicado para cada programa. Lo que implica:
+Pero, toda criptografia es vulnerable a un criptoanálisis suficientemente potente.
+
+La única forma fiable de aislamiento es el propio hardware. No se puede espiar lo que no se puede escuchar. Pero para ello, la parte de control tendria que contar con un bus dedicado para cada programa. Lo que implica:
 
 - Cada programa tendria que ir en su própio módulo hardware enchufable al sistema.
 
@@ -131,7 +135,7 @@ La única forma fiable de aislamiento es el hardware. No se puede espiar lo que 
 
 Obviamente, quien tenga acceso físico al hardware puede acceder a lo que desee. Pero acceder físicamente a una máquina para subvertir sus cartuchos de programas o sus ranuras de conexión es difícil. Sobre todo si la máquina esta está bien protegida.
 
-### Interface con el usuario
+## Interface con el usuario
 
 Por ejemplo, el espacio de pantalla. Solo la parte de control puede pintar en la pantalla. Cada programa solicita a la parte de control que le asigne una ventana y va dando instrucciones de qué pintar en esa ventana.
 
@@ -141,7 +145,7 @@ De manera similar, el teclado está manejado por la parte de control. Las pulsac
 
 Etc.
 
-### Almacenamiento de información
+## Almacenamiento de información
 
 Toda petición de guardar/recuperar información en/desde algún dispositivo de almacenamiento ha de ir avalada por su respectivo token y provenir de la correspondiente ranura. La parte central no permite a ningún programa escribir/leer en el espacio de otro programa.
 
@@ -152,13 +156,13 @@ Si deseamos conservar la información de un programa que vamos a desenchufar. Es
 Es necesario prever algún mecanismo que permita a un cartucho enmendar una retirada erronea. (Por ejemplo, que pueda mantener su mismo token si se vuelve a introducir en la misma ranura antes de unas horas, unos dias,... Este "tiempo de gracia" podria ser negociado entre el cartucho y la parte central cuando el cartucho se introduce por primera vez.)
 
 
-### Traspasos de información de un programa a otro
+## Traspasos de información de un programa a otro
 
 Cuando persona usuaria indica de enviar una cierta información desde un programa a otro (por ejemplo, arrastrando algo de una ventana a otra). El programa emisor indica a la parte de control qué información desea pasar al otro programa. El programa receptor recibe una copia de la información desde la parte de control.
 
 Esto puede utilizarse también para enviar o recibir información a/desde un dispositivo enchufable. Obviamente este dispositivo/cartucho tendria su propio programa. En caso de desear tener esta funcionalidad en la máquina, seria conveniente prever unas ranuras enchufables fácilmente accesibles por el usuario.
 
-### Información de solo lectura
+## Información de solo lectura
 
 Por ejemplo, un enlace unidireccional óptico es aquel donde una parte tiene solo un emisor y la otra solo un receptor. El contenido pueden pasar en un sentido (emisor=>receptor), pero no en otro.
 

@@ -1,6 +1,6 @@
 # DCC (Data Centric Computing), documentación para aprender
 
-## Seguridad
+# Seguridad
 
 [Actor Model](https://en.wikipedia.org/wiki/Actor_model)
 
@@ -13,7 +13,7 @@
 [CHERI - The Digital Security by Design (DSbD) Initiative](https://www.cl.cam.ac.uk/research/security/ctsrd/cheri/dsbd.html)
 
 
-## Temas que ha de atender un Sistema Operativo
+# Temas que ha de atender un Sistema Operativo
 
 [The Question Nobody Ever Explains: Where Does the Kernel End? - Core Dumped](https://www.youtube.com/live/ZmPIxfCggFw)
 
@@ -25,7 +25,7 @@ Las dos principales tareas que ha de desempeñar un sistema operativo son:
 
 - Regular/coordinar el trabajo de los distintos programas que puedan estar corriendo en el sistema en un momento dado.
 
-### Servicios básicos - el núcleo (kernel)
+## Servicios básicos - el núcleo (kernel)
 
 Para ello el núcleo (kernel) del sistema operativo se ha de ocupar de aspectos tales como:
 
@@ -68,7 +68,7 @@ Para ello el núcleo (kernel) del sistema operativo se ha de ocupar de aspectos 
 - API para acceder a todos los servicios citados desde el software de usuario. (System Call Interface)
 
 
-### Utilidades de usuario
+## Utilidades de usuario
 
 Además de los servicios básicos del kernel. Los sistemas operativos suelen incluir toda una serie de utilidades de usuario. 
 
@@ -78,20 +78,20 @@ Suele ser muy típico incluir también toda una serie de utilidades para configu
 
 
 
-### El proceso de arranque
+## El proceso de arranque
 
 Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse cargo del mismo. Algo ha de cargar y ejecutar ese sistema operativo. Esta es la tarea del *firmware* y del proceso de *bootstrap*.
 
 
 
-## Algunos enlaces a documentación sobre sistemas operativos
+# Algunos enlaces a documentación sobre sistemas operativos
 
 [Philipp Oppermanns's blog - Writing an OS in Rust](https://os.phil-opp.com/)
 
 [The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/)
 
 
-### OS Dev Wiki
+## OS Dev Wiki
 
 [Beginner Mistakes](https://wiki.osdev.org/Beginner_Mistakes)
 
@@ -108,7 +108,31 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
 [Rust](https://wiki.osdev.org/Rust)
 
 
-### Xous Operating System
+## Hubris - Oxide Computer Company
+
+[Hubris](https://hubris.oxide.computer/)
+
+[Hubris Reference Book](https://hubris.oxide.computer/reference/)
+
+
+## To:ck , programable IoT starts at the edge
+
+[To:ck](https://www.tockos.org/)
+
+[Tock OS Book](https://book.tockos.org/introduction)
+
+
+## FreeRTOS
+
+[FreeRTOS](https://www.freertos.org/)
+
+
+## Zephyr RTOS
+
+[Zephyr RTOS](https://www.zephyrproject.org/)
+
+
+## Xous Operating System
 
 [Xous](https://xous.dev/)
 
@@ -122,25 +146,27 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
 
 [Conference: Xous, A Pure Rust Rethink of the Embedded Operating System](https://media.ccc.de/v/39c3-xous-a-pure-rust-rethink-of-the-embedded-operating-system#t=0)
 
-### RaspberryPi OS
+## RaspberryPi OS
 
 [rust-raspberrypi-OS-tutorials](https://github.com/rust-embedded/rust-raspberrypi-OS-tutorials)
 
 [Raspberry Pi - Linux Kernel source - github](https://github.com/raspberrypi/linux)
 
 
-### Ariel OS
+## Ariel OS
 
 [Ariel OS](https://ariel-os.org/)
 
 
-### TRON OS
+## TRON OS
 
 [TRON operating system project](https://www.tron.org/)
 
+# Algunos enlaces a lecturas variadas
 
+[Thoughts on Panicking - ONE-VARIABLE](https://onevariable.com/blog/panicking-thoughts/)
 
-## Hardware: arquitecturas de microprocesadores y sistemas
+# Hardware: arquitecturas de microprocesadores y sistemas
 
 [Harvard architecture](https://en.wikipedia.org/wiki/Harvard_architecture)
 
@@ -168,7 +194,7 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
 
 
 
-## Software: bibliotecas Rust
+# Software: bibliotecas Rust
 
 [bootloader](https://crates.io/crates/bootloader)
 
