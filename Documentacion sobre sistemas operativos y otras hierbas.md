@@ -162,6 +162,10 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
 
 [TRON operating system project](https://www.tron.org/)
 
+## TockOS
+
+[To:ck, an embedded operating system designed for running multiple concurrent, mutually distrustful applications on low-memory and low-power microcontrollers](https://tockos.org/)
+
 # Algunos enlaces a lecturas variadas
 
 [Thoughts on Panicking - ONE-VARIABLE](https://onevariable.com/blog/panicking-thoughts/)
