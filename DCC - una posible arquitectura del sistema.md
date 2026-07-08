@@ -31,7 +31,7 @@ Se refiere a programas de aplicación que maneja el usuario. Al software product
 Este tipo de subsistema ejecuta la lógica de operación requerida para obtener los resultados deseados a partir de los datos que se van a manipular.
 
 El subsistema tipo EP constará de dos partes diferenciadas:
-- Una *read-only*, la ROM y la persistencia con el código ejecutable del programa que está ejecutando.
+- Una *quasi-read-only*, con una copia del código ejecutable del programa que se esté ejecutando en ese momento.
 - Otra *read/write*, la RAM usada como espacio de trabajo para guardar la información dinámica que necesite ese programa para su flujo de control de ejecución interno.
 
 Nada de datos de usuario en este tipo de subsistema.
