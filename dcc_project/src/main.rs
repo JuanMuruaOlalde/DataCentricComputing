@@ -54,15 +54,15 @@ fn main() {
     });
     threads_for_executors.push(executor03);
     available_executors.push(channel03);
+    let mcm = thread::spawn(move || {
+        ManagementControlMonitorization::new(available_executors).run();
+    });
     for thread in threads_for_executors {
         match thread.join() {
             Ok(m) => println!("An PE finishes and says [{:?}]", m),
             Err(e) => println!("An PE finishes and says [{:?}]", e),
         };
     }
-    let mcm = thread::spawn(move || {
-        ManagementControlMonitorization::new(available_executors).run();
-    });
     match mcm.join() {
         Ok(m) => println!("The MCM finishes and says [{:?}]", m),
         Err(e) => println!("The MCM finishes and says [{:?}]", e),

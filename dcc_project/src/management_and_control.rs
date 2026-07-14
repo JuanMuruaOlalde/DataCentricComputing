@@ -1,3 +1,6 @@
+use std::thread;
+use std::time::Duration;
+
 use uuid::Uuid;
 
 use crate::internal_communications::{InternalChannel, InternalMessage};
@@ -18,9 +21,12 @@ impl ManagementControlMonitorization {
         println!("The MCM up an running...");
         loop {
             for executor in &self.available_executors {
-                while let Ok(incomming) = executor.rx.try_recv() {
+                if let Ok(incomming) = executor.rx.try_recv() {
                     self.process_incomming_message(incomming);
                 }
+            }
+            thread::sleep(Duration::from_secs(2)); // simulate work
+            for executor in &self.available_executors {
                 let message = InternalMessage::Text {
                     sender_id: self.id,
                     payload: String::from("heartbeat"),
