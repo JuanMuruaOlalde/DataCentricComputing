@@ -1,12 +1,10 @@
-use core::fmt::Alignment::Left;
-use core::option::Option::None;
 use std::sync::mpsc;
 use std::thread::{self, JoinHandle};
 
 use dcc_project::data_manipulator::DataManipulator;
+use dcc_project::internal_communications::{InternalChannel, InternalMessage};
 use dcc_project::management_and_control::ManagementControlMonitorization;
 use dcc_project::program_executor::ProgramExecutor;
-use dcc_project::utils::{InternalChannel, InternalMessage};
 
 fn main() {
     let mut threads_for_executors: Vec<JoinHandle<()>> = Vec::new();

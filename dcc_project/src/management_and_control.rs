@@ -1,8 +1,6 @@
-use core::option::Option::None;
 use uuid::Uuid;
 
-use crate::utils::{InternalChannel, InternalMessage};
-
+use crate::internal_communications::{InternalChannel, InternalMessage};
 pub struct ManagementControlMonitorization {
     id: uuid::Uuid,
     available_executors: Vec<InternalChannel<InternalMessage>>,
@@ -20,20 +18,24 @@ impl ManagementControlMonitorization {
         println!("The MCM up an running...");
         loop {
             for executor in &self.available_executors {
-                for incomming in &executor.rx {
+                while let Ok(incomming) = executor.rx.try_recv() {
                     self.process_incomming_message(incomming);
                 }
-                let _ = &executor.tx.send(InternalMessage {
+                let message = InternalMessage::Text {
                     sender_id: self.id,
-                    payload_text: Some(String::from("heartbeat")),
-                    payload_integer: None,
-                    payload_float: None,
-                });
+                    payload: String::from("heartbeat"),
+                };
+                let _ = &executor.tx.send(message);
             }
         }
     }
 
     fn process_incomming_message(&self, incomming: InternalMessage) {
-        println!("The MCM received [{}]", incomming);
+        match incomming {
+            InternalMessage::Text {
+                sender_id: i,
+                payload: p,
+            } => println!("The MCM received a Text[{}] from [{}]", p, i),
+        }
     }
 }

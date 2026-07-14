@@ -1,6 +1,6 @@
 use crate::{
     data_manipulator::DataManipulator,
-    utils::{InternalChannel, InternalMessage},
+    internal_communications::{InternalChannel, InternalMessage},
 };
 use uuid::Uuid;
 
@@ -24,11 +24,9 @@ impl ProgramExecutor {
 
     pub fn run(&self) {
         println!("an PE up an running...");
-        let message = InternalMessage {
+        let message = InternalMessage::Text {
             sender_id: self.id,
-            payload_text: Some(format!("Hello from PE/DM subsystem with id[{}]", &self.id)),
-            payload_integer: None,
-            payload_float: None,
+            payload: format!("Hello from PE/DM subsystem with id[{}]", &self.id),
         };
         let _ = self.channel_whith_mcm.tx.send(message);
     }
