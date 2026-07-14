@@ -10,6 +10,7 @@ pub struct InternalChannel<InternalMessage> {
 }
 
 pub struct InternalMessage {
+    pub sender_id: uuid::Uuid,
     pub payload_text: Option<String>,
     pub payload_integer: Option<i32>,
     pub payload_float: Option<f64>,
@@ -19,7 +20,7 @@ impl std::fmt::Display for InternalMessage {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "{{text: {}, integer: {}, float: {}}}",
+            "{{text: {}, integer: {}, float: {}, sender_id: {}}}",
             match &self.payload_text {
                 Some(t) => t.to_string(),
                 None => String::from("none"),
@@ -31,7 +32,8 @@ impl std::fmt::Display for InternalMessage {
             match &self.payload_float {
                 Some(f) => f.to_string(),
                 None => String::from("none"),
-            }
+            },
+            &self.sender_id,
         )
     }
 }
