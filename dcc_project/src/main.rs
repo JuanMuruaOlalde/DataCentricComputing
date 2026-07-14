@@ -1,0 +1,70 @@
+use std::sync::mpsc;
+use std::thread::{self, JoinHandle};
+
+use dcc_project::data_manipulator::DataManipulator;
+use dcc_project::internal_communications::{InternalChannel, InternalMessage};
+use dcc_project::management_and_control::ManagementControlMonitorization;
+use dcc_project::program_executor::ProgramExecutor;
+
+fn main() {
+    let mut threads_for_executors: Vec<JoinHandle<()>> = Vec::new();
+    let mut available_executors: Vec<InternalChannel<InternalMessage>> = Vec::new();
+    let (tx_pe, rx_mcm) = mpsc::channel();
+    let (tx_mcm, rx_pe) = mpsc::channel();
+    let channel01 = InternalChannel {
+        tx: tx_mcm,
+        rx: rx_mcm,
+    };
+    let executor01 = thread::spawn(move || {
+        let channel = InternalChannel {
+            tx: tx_pe,
+            rx: rx_pe,
+        };
+        ProgramExecutor::new(channel, DataManipulator {}).run();
+    });
+    threads_for_executors.push(executor01);
+    available_executors.push(channel01);
+    let (tx_pe, rx_mcm) = mpsc::channel();
+    let (tx_mcm, rx_pe) = mpsc::channel();
+    let channel02 = InternalChannel {
+        tx: tx_mcm,
+        rx: rx_mcm,
+    };
+    let executor02 = thread::spawn(move || {
+        let channel = InternalChannel {
+            tx: tx_pe,
+            rx: rx_pe,
+        };
+        ProgramExecutor::new(channel, DataManipulator {}).run();
+    });
+    threads_for_executors.push(executor02);
+    available_executors.push(channel02);
+    let (tx_pe, rx_mcm) = mpsc::channel();
+    let (tx_mcm, rx_pe) = mpsc::channel();
+    let channel03 = InternalChannel {
+        tx: tx_mcm,
+        rx: rx_mcm,
+    };
+    let executor03 = thread::spawn(move || {
+        let channel = InternalChannel {
+            tx: tx_pe,
+            rx: rx_pe,
+        };
+        ProgramExecutor::new(channel, DataManipulator {}).run();
+    });
+    threads_for_executors.push(executor03);
+    available_executors.push(channel03);
+    for thread in threads_for_executors {
+        match thread.join() {
+            Ok(m) => println!("An PE finishes and says [{:?}]", m),
+            Err(e) => println!("An PE finishes and says [{:?}]", e),
+        };
+    }
+    let mcm = thread::spawn(move || {
+        ManagementControlMonitorization::new(available_executors).run();
+    });
+    match mcm.join() {
+        Ok(m) => println!("The MCM finishes and says [{:?}]", m),
+        Err(e) => println!("The MCM finishes and says [{:?}]", e),
+    };
+}
