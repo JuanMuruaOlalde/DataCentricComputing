@@ -1,16 +1,17 @@
 use std::thread;
 use std::time::Duration;
-
 use uuid::Uuid;
 
-use crate::internal_communications::{InternalChannel, InternalMessage};
+use crate::internal_communications::{InternalMessage, pe_dm_pair};
+use crate::user_interface;
+
 pub struct ManagementControlMonitorization {
     id: uuid::Uuid,
-    available_executors: Vec<InternalChannel>,
+    available_executors: Vec<pe_dm_pair>,
 }
 
 impl ManagementControlMonitorization {
-    pub fn new(available_executors: Vec<InternalChannel>) -> Self {
+    pub fn new(available_executors: Vec<pe_dm_pair>) -> Self {
         Self {
             id: Uuid::new_v4(),
             available_executors,
@@ -18,10 +19,13 @@ impl ManagementControlMonitorization {
     }
 
     pub fn run(&self) {
-        println!("The MCM up an running...");
+        user_interface::display_on_screen(String::from("The MCM up an running..."));
         loop {
             for executor in &self.available_executors {
-                if let Ok(incomming) = executor.rx.try_recv() {
+                if let Ok(incomming) = executor.pe.rx.try_recv() {
+                    self.process_incomming_message(incomming);
+                }
+                if let Ok(incomming) = executor.dm.rx.try_recv() {
                     self.process_incomming_message(incomming);
                 }
             }
@@ -31,7 +35,12 @@ impl ManagementControlMonitorization {
                     sender_id: self.id,
                     payload: String::from("heartbeat"),
                 };
-                let _ = &executor.tx.send(message);
+                let _ = &executor.pe.tx.send(message);
+                let message = InternalMessage::Text {
+                    sender_id: self.id,
+                    payload: String::from("heartbeat"),
+                };
+                let _ = &executor.dm.tx.send(message);
             }
         }
     }
@@ -41,7 +50,10 @@ impl ManagementControlMonitorization {
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
-            } => println!("The MCM received a Text[{}] from [{}]", p, i),
+            } => user_interface::display_on_screen(format!(
+                "The MCM received a Text[{}] from [{}]",
+                p, i
+            )),
         }
     }
 }
