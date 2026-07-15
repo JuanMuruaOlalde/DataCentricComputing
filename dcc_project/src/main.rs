@@ -1,70 +1,54 @@
 use std::sync::mpsc;
-use std::thread::{self, JoinHandle};
+use std::thread;
 
 use dcc_project::data_manipulator::DataManipulator;
-use dcc_project::internal_communications::{InternalChannel, InternalMessage};
+use dcc_project::internal_communications::InternalChannel;
 use dcc_project::management_and_control::ManagementControlMonitorization;
 use dcc_project::program_executor::ProgramExecutor;
 
 fn main() {
-    let mut threads_for_executors: Vec<JoinHandle<()>> = Vec::new();
-    let mut available_executors: Vec<InternalChannel<InternalMessage>> = Vec::new();
-    let (tx_pe, rx_mcm) = mpsc::channel();
-    let (tx_mcm, rx_pe) = mpsc::channel();
-    let channel01 = InternalChannel {
-        tx: tx_mcm,
-        rx: rx_mcm,
-    };
-    let executor01 = thread::spawn(move || {
-        let channel = InternalChannel {
-            tx: tx_pe,
-            rx: rx_pe,
-        };
-        ProgramExecutor::new(channel, DataManipulator {}).run();
-    });
-    threads_for_executors.push(executor01);
-    available_executors.push(channel01);
-    let (tx_pe, rx_mcm) = mpsc::channel();
-    let (tx_mcm, rx_pe) = mpsc::channel();
-    let channel02 = InternalChannel {
-        tx: tx_mcm,
-        rx: rx_mcm,
-    };
-    let executor02 = thread::spawn(move || {
-        let channel = InternalChannel {
-            tx: tx_pe,
-            rx: rx_pe,
-        };
-        ProgramExecutor::new(channel, DataManipulator {}).run();
-    });
-    threads_for_executors.push(executor02);
-    available_executors.push(channel02);
-    let (tx_pe, rx_mcm) = mpsc::channel();
-    let (tx_mcm, rx_pe) = mpsc::channel();
-    let channel03 = InternalChannel {
-        tx: tx_mcm,
-        rx: rx_mcm,
-    };
-    let executor03 = thread::spawn(move || {
-        let channel = InternalChannel {
-            tx: tx_pe,
-            rx: rx_pe,
-        };
-        ProgramExecutor::new(channel, DataManipulator {}).run();
-    });
-    threads_for_executors.push(executor03);
-    available_executors.push(channel03);
+    let mut available_executors: Vec<InternalChannel> = Vec::new();
+    for _ in 0..3 {
+        available_executors.push(install_a_new_pe());
+    }
     let mcm = thread::spawn(move || {
         ManagementControlMonitorization::new(available_executors).run();
     });
-    for thread in threads_for_executors {
-        match thread.join() {
-            Ok(m) => println!("An PE finishes and says [{:?}]", m),
-            Err(e) => println!("An PE finishes and says [{:?}]", e),
-        };
-    }
     match mcm.join() {
         Ok(m) => println!("The MCM finishes and says [{:?}]", m),
         Err(e) => println!("The MCM finishes and says [{:?}]", e),
     };
+}
+
+// I put install in the name of this function
+// and not create or launch
+// because in a real DCC system
+// PE/DM subsystems will be hardware based ones.
+fn install_a_new_pe() -> InternalChannel {
+    let (tx_pe1, rx_mcm) = mpsc::channel();
+    let (tx_mcm, rx_pe1) = mpsc::channel();
+    let (tx_md, rx_pe2) = mpsc::channel();
+    let (tx_pe2, rx_md) = mpsc::channel();
+    let _ = thread::spawn(move || {
+        let channel_pe_mcm = InternalChannel {
+            tx: tx_pe1,
+            rx: rx_pe1,
+        };
+        let channel_pe_md = InternalChannel {
+            tx: tx_pe2,
+            rx: rx_pe2,
+        };
+        ProgramExecutor::new(channel_pe_mcm, channel_pe_md).run();
+    });
+    let _ = thread::spawn(move || {
+        let channel_md_pe = InternalChannel {
+            tx: tx_md,
+            rx: rx_md,
+        };
+        DataManipulator::new(channel_md_pe).run();
+    });
+    InternalChannel {
+        tx: tx_mcm,
+        rx: rx_mcm,
+    }
 }

@@ -1,6 +1,6 @@
 use std::sync::mpsc::{Receiver, Sender};
 
-pub struct InternalChannel<InternalMessage> {
+pub struct InternalChannel {
     pub tx: Sender<InternalMessage>,
     pub rx: Receiver<InternalMessage>,
 }
