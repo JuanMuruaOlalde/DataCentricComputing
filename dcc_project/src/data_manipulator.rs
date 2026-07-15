@@ -1,3 +1,41 @@
-pub struct DataManipulator {}
+use std::thread;
+use std::time::Duration;
 
-impl DataManipulator {}
+use crate::internal_communications::{InternalChannel, InternalMessage};
+use uuid::Uuid;
+
+pub struct DataManipulator {
+    id: Uuid,
+    channel_whith_pe: InternalChannel,
+}
+
+impl DataManipulator {
+    pub fn new(channel_whith_pe: InternalChannel) -> Self {
+        Self {
+            id: Uuid::new_v4(),
+            channel_whith_pe,
+        }
+    }
+
+    pub fn run(&self) {
+        println!("MD[{}] up an running...", &self.id);
+        for _ in 1..10 {
+            if let Ok(incomming) = self.channel_whith_pe.rx.try_recv() {
+                self.process_incomming_message(incomming);
+            }
+            thread::sleep(Duration::from_secs(1)); // simulate work
+        }
+    }
+
+    fn process_incomming_message(&self, incomming: InternalMessage) {
+        match incomming {
+            InternalMessage::Text {
+                sender_id: i,
+                payload: p,
+            } => println!(
+                "DM[{}] received Text[{}] from its associated PE[{}].",
+                &self.id, p, i
+            ),
+        }
+    }
+}

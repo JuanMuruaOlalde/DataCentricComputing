@@ -1,35 +1,32 @@
 use std::thread;
 use std::time::Duration;
 
-use crate::{
-    data_manipulator::DataManipulator,
-    internal_communications::{InternalChannel, InternalMessage},
-};
+use crate::internal_communications::{InternalChannel, InternalMessage};
 use uuid::Uuid;
 
 pub struct ProgramExecutor {
     id: Uuid,
-    channel_whith_mcm: InternalChannel<InternalMessage>,
-    data_manipulator: DataManipulator,
+    channel_whith_mcm: InternalChannel,
+    channel_whith_dm: InternalChannel,
 }
 
 impl ProgramExecutor {
-    pub fn new(
-        channel_whith_mcm: InternalChannel<InternalMessage>,
-        data_manipulator: DataManipulator,
-    ) -> Self {
+    pub fn new(channel_whith_mcm: InternalChannel, channel_whith_dm: InternalChannel) -> Self {
         Self {
             id: Uuid::new_v4(),
             channel_whith_mcm,
-            data_manipulator,
+            channel_whith_dm,
         }
     }
 
     pub fn run(&self) {
         println!("PE[{}] up an running...", &self.id);
-        for count in 1..10 {
+        for _ in 1..10 {
             if let Ok(incomming) = self.channel_whith_mcm.rx.try_recv() {
-                self.process_incomming_message(incomming);
+                self.process_message_from_mcm(incomming);
+            }
+            if let Ok(incomming) = self.channel_whith_dm.rx.try_recv() {
+                self.process_message_from_dm(incomming);
             }
             thread::sleep(Duration::from_secs(1)); // simulate work
             let message = InternalMessage::Text {
@@ -40,13 +37,24 @@ impl ProgramExecutor {
         }
     }
 
-    fn process_incomming_message(&self, incomming: InternalMessage) {
+    fn process_message_from_mcm(&self, incomming: InternalMessage) {
         match incomming {
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
             } => println!(
                 "PE/DM[{}] received Text[{}] from the MCM[{}].",
+                &self.id, p, i
+            ),
+        }
+    }
+    fn process_message_from_dm(&self, incomming: InternalMessage) {
+        match incomming {
+            InternalMessage::Text {
+                sender_id: i,
+                payload: p,
+            } => println!(
+                "PE[{}] received Text[{}] from its associated DM[{}].",
                 &self.id, p, i
             ),
         }

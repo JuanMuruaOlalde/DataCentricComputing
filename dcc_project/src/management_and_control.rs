@@ -6,11 +6,11 @@ use uuid::Uuid;
 use crate::internal_communications::{InternalChannel, InternalMessage};
 pub struct ManagementControlMonitorization {
     id: uuid::Uuid,
-    available_executors: Vec<InternalChannel<InternalMessage>>,
+    available_executors: Vec<InternalChannel>,
 }
 
 impl ManagementControlMonitorization {
-    pub fn new(available_executors: Vec<InternalChannel<InternalMessage>>) -> Self {
+    pub fn new(available_executors: Vec<InternalChannel>) -> Self {
         Self {
             id: Uuid::new_v4(),
             available_executors,
