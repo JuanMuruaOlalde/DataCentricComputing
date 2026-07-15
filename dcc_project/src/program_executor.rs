@@ -20,7 +20,12 @@ impl ProgramExecutor {
     }
 
     pub fn run(&self) {
-        println!("PE[{}] up an running...", &self.id);
+        let message = InternalMessage::Text {
+            sender_id: self.id,
+            payload: format!("PE[{}] up an running...", &self.id),
+        };
+        let _ = self.channel_whith_mcm.tx.send(message);
+
         loop {
             if let Ok(incomming) = self.channel_whith_mcm.rx.try_recv() {
                 self.process_message_from_mcm(incomming);
@@ -28,32 +33,40 @@ impl ProgramExecutor {
             if let Ok(incomming) = self.channel_whith_dm.rx.try_recv() {
                 self.process_message_from_dm(incomming);
             }
-            thread::sleep(Duration::from_secs(1)); // simulate work
-            let message = InternalMessage::Text {
-                sender_id: self.id,
-                payload: format!("Hello from PE/DM[{}]", &self.id),
-            };
-            let _ = self.channel_whith_mcm.tx.send(message);
         }
     }
 
     fn process_message_from_mcm(&self, incomming: InternalMessage) {
+        thread::sleep(Duration::from_secs(1)); // simulate work
         match incomming {
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
-            } => println!("PE[{}] received Text[{}] from the MCM[{}].", &self.id, p, i),
+            } => {
+                let message = InternalMessage::Text {
+                    sender_id: self.id,
+                    payload: format!("PE[{}] received Text[{}] from the MCM[{}].", &self.id, p, i),
+                };
+                let _ = self.channel_whith_mcm.tx.send(message);
+            }
         }
     }
     fn process_message_from_dm(&self, incomming: InternalMessage) {
+        thread::sleep(Duration::from_secs(1)); // simulate work
         match incomming {
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
-            } => println!(
-                "PE[{}] received Text[{}] from its associated DM[{}].",
-                &self.id, p, i
-            ),
+            } => {
+                let message = InternalMessage::Text {
+                    sender_id: self.id,
+                    payload: format!(
+                        "PE[{}] received Text[{}] from its associated DM[{}].",
+                        &self.id, p, i
+                    ),
+                };
+                let _ = self.channel_whith_mcm.tx.send(message);
+            }
         }
     }
 }

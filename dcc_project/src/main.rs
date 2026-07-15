@@ -7,6 +7,7 @@ use dcc_project::management_and_control::ManagementControlMonitorization;
 use dcc_project::program_executor::ProgramExecutor;
 
 fn main() {
+    println!("Starting DCC system simulation...");
     let mut available_executors: Vec<pe_dm_pair> = Vec::new();
     for _ in 0..3 {
         available_executors.push(install_a_new_pe_dm());

@@ -1,9 +1,10 @@
 use std::thread;
 use std::time::Duration;
-
 use uuid::Uuid;
 
 use crate::internal_communications::{InternalMessage, pe_dm_pair};
+use crate::user_interface;
+
 pub struct ManagementControlMonitorization {
     id: uuid::Uuid,
     available_executors: Vec<pe_dm_pair>,
@@ -18,7 +19,7 @@ impl ManagementControlMonitorization {
     }
 
     pub fn run(&self) {
-        println!("The MCM up an running...");
+        user_interface::display_on_screen(String::from("The MCM up an running..."));
         loop {
             for executor in &self.available_executors {
                 if let Ok(incomming) = executor.pe.rx.try_recv() {
@@ -49,7 +50,10 @@ impl ManagementControlMonitorization {
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
-            } => println!("The MCM received a Text[{}] from [{}]", p, i),
+            } => user_interface::display_on_screen(format!(
+                "The MCM received a Text[{}] from [{}]",
+                p, i
+            )),
         }
     }
 }

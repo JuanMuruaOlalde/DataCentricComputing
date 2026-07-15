@@ -20,7 +20,12 @@ impl DataManipulator {
     }
 
     pub fn run(&self) {
-        println!("MD[{}] up an running...", &self.id);
+        let message = InternalMessage::Text {
+            sender_id: self.id,
+            payload: format!("MD[{}] up an running...", &self.id),
+        };
+        let _ = self.channel_whith_mcm.tx.send(message);
+
         loop {
             while let Ok(incomming) = self.channel_whith_mcm.rx.try_recv() {
                 self.process_message_from_mcm(incomming);
@@ -37,7 +42,13 @@ impl DataManipulator {
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
-            } => println!("MD[{}] received Text[{}] from the MCM[{}].", &self.id, p, i),
+            } => {
+                let message = InternalMessage::Text {
+                    sender_id: self.id,
+                    payload: format!("DM[{}] received Text[{}] from the MCM[{}].", &self.id, p, i),
+                };
+                let _ = self.channel_whith_mcm.tx.send(message);
+            }
         }
     }
     fn process_message_from_pe(&self, incomming: InternalMessage) {
@@ -45,10 +56,16 @@ impl DataManipulator {
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
-            } => println!(
-                "MD[{}] received Text[{}] from its associated PE[{}].",
-                &self.id, p, i
-            ),
+            } => {
+                let message = InternalMessage::Text {
+                    sender_id: self.id,
+                    payload: format!(
+                        "DM[{}] received Text[{}] from its associated PE[{}].",
+                        &self.id, p, i
+                    ),
+                };
+                let _ = self.channel_whith_mcm.tx.send(message);
+            }
         }
     }
 }
