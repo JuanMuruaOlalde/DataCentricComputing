@@ -21,7 +21,7 @@ impl ProgramExecutor {
 
     pub fn run(&self) {
         println!("PE[{}] up an running...", &self.id);
-        for _ in 1..10 {
+        loop {
             if let Ok(incomming) = self.channel_whith_mcm.rx.try_recv() {
                 self.process_message_from_mcm(incomming);
             }
@@ -42,10 +42,7 @@ impl ProgramExecutor {
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
-            } => println!(
-                "PE/DM[{}] received Text[{}] from the MCM[{}].",
-                &self.id, p, i
-            ),
+            } => println!("PE[{}] received Text[{}] from the MCM[{}].", &self.id, p, i),
         }
     }
     fn process_message_from_dm(&self, incomming: InternalMessage) {

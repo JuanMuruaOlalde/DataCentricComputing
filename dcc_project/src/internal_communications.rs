@@ -5,6 +5,12 @@ pub struct InternalChannel {
     pub rx: Receiver<InternalMessage>,
 }
 
+#[allow(non_camel_case_types)]
+pub struct pe_dm_pair {
+    pub pe: InternalChannel,
+    pub dm: InternalChannel,
+}
+
 pub enum InternalMessage {
     Text {
         sender_id: uuid::Uuid,
