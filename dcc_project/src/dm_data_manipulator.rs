@@ -1,6 +1,3 @@
-use std::thread;
-use std::time::Duration;
-
 use crate::internal_communications::{InternalChannel, InternalMessage};
 use uuid::Uuid;
 
@@ -27,18 +24,24 @@ impl DataManipulator {
         let _ = self.channel_whith_mcm.tx.send(message);
 
         loop {
-            while let Ok(incomming) = self.channel_whith_mcm.rx.try_recv() {
-                self.process_message_from_mcm(incomming);
+            if let Ok(incomming) = self.channel_whith_mcm.rx.try_recv() {
+                match incomming {
+                    InternalMessage::EndProgram { .. } => break,
+                    _ => self.process_message_from_mcm(incomming),
+                }
             }
-            while let Ok(incomming) = self.channel_whith_pe.rx.try_recv() {
-                self.process_message_from_pe(incomming);
+            if let Ok(incomming) = self.channel_whith_pe.rx.try_recv() {
+                match incomming {
+                    InternalMessage::EndProgram { .. } => (),
+                    _ => self.process_message_from_pe(incomming),
+                }
             }
-            thread::sleep(Duration::from_secs(1)); // simulate work
         }
     }
 
     fn process_message_from_mcm(&self, incomming: InternalMessage) {
         match incomming {
+            InternalMessage::EndProgram { .. } => (), // loop break in run() function
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
@@ -53,6 +56,7 @@ impl DataManipulator {
     }
     fn process_message_from_pe(&self, incomming: InternalMessage) {
         match incomming {
+            InternalMessage::EndProgram { .. } => (), // loop break in run() function
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,

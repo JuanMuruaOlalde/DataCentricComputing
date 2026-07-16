@@ -1,6 +1,3 @@
-use std::thread;
-use std::time::Duration;
-
 use crate::internal_communications::{InternalChannel, InternalMessage};
 use uuid::Uuid;
 
@@ -28,17 +25,23 @@ impl ProgramExecutor {
 
         loop {
             if let Ok(incomming) = self.channel_whith_mcm.rx.try_recv() {
-                self.process_message_from_mcm(incomming);
-            }
+                match incomming {
+                    InternalMessage::EndProgram { .. } => break,
+                    _ => self.process_message_from_mcm(incomming),
+                };
+            };
             if let Ok(incomming) = self.channel_whith_dm.rx.try_recv() {
-                self.process_message_from_dm(incomming);
+                match incomming {
+                    InternalMessage::EndProgram { .. } => (),
+                    _ => self.process_message_from_dm(incomming),
+                };
             }
         }
     }
 
     fn process_message_from_mcm(&self, incomming: InternalMessage) {
-        thread::sleep(Duration::from_secs(1)); // simulate work
         match incomming {
+            InternalMessage::EndProgram { .. } => (), // loop break in run() function
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
@@ -52,8 +55,8 @@ impl ProgramExecutor {
         }
     }
     fn process_message_from_dm(&self, incomming: InternalMessage) {
-        thread::sleep(Duration::from_secs(1)); // simulate work
         match incomming {
+            InternalMessage::EndProgram { .. } => (), // loop break in run() function
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
