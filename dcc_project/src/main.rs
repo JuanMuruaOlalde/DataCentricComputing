@@ -1,31 +1,41 @@
 use std::sync::mpsc;
-use std::thread;
+use std::thread::{self, JoinHandle};
 
-use dcc_project::data_manipulator::DataManipulator;
+use dcc_project::dm_data_manipulator::DataManipulator;
 use dcc_project::internal_communications::{InternalChannel, pe_dm_pair};
-use dcc_project::management_and_control::ManagementControlMonitorization;
-use dcc_project::program_executor::ProgramExecutor;
+use dcc_project::mcm_management_and_control::ManagementControlMonitorization;
+use dcc_project::pe_program_executor::ProgramExecutor;
 
 fn main() {
     println!("Starting DCC system simulation...");
+    let mut spawned_threads: Vec<JoinHandle<()>> = Vec::new();
     let mut available_executors: Vec<pe_dm_pair> = Vec::new();
     for _ in 0..3 {
-        available_executors.push(install_a_new_pe_dm());
+        let (pair_channels, pe_handle, dm_handle) = install_a_new_pe_dm();
+        spawned_threads.push(pe_handle);
+        spawned_threads.push(dm_handle);
+        available_executors.push(pair_channels);
     }
     let mcm = thread::spawn(move || {
         ManagementControlMonitorization::new(available_executors).run();
     });
+    for handle in spawned_threads {
+        match handle.join() {
+            Ok(m) => println!("A PE or DM thread finishes and says [{:?}]", m),
+            Err(e) => println!("A PE or DM thread finishes with error, and says [{:?}]", e),
+        };
+    }
     match mcm.join() {
-        Ok(m) => println!("The MCM finishes and says [{:?}]", m),
-        Err(e) => println!("The MCM finishes and says [{:?}]", e),
+        Ok(m) => println!("The MCM thread finishes and says [{:?}]", m),
+        Err(e) => println!("The MCM thread finishes with error, and says [{:?}]", e),
     };
+    println!("DCC system simulation terminated.");
 }
 
-// I put install in the name of this function
-// and not create or launch
-// because in a real DCC system
-// PE/DM subsystems will be hardware based ones.
-fn install_a_new_pe_dm() -> pe_dm_pair {
+// I put "install" in the name of this function and not "create" or "launch"
+// because in a real DCC system PE/DM subsystems will be hardware based ones;
+// and, thus, will require "installation" to be available in the system.
+fn install_a_new_pe_dm() -> (pe_dm_pair, JoinHandle<()>, JoinHandle<()>) {
     let (tx_pe1, rx_mcm1) = mpsc::channel();
     let (tx_mcm1, rx_pe1) = mpsc::channel();
 
@@ -35,7 +45,7 @@ fn install_a_new_pe_dm() -> pe_dm_pair {
     let (tx_dm2, rx_pe2) = mpsc::channel();
     let (tx_pe2, rx_dm2) = mpsc::channel();
 
-    let _ = thread::spawn(move || {
+    let pe_handle = thread::spawn(move || {
         let channel_pe_mcm = InternalChannel {
             tx: tx_pe1,
             rx: rx_pe1,
@@ -47,7 +57,7 @@ fn install_a_new_pe_dm() -> pe_dm_pair {
         ProgramExecutor::new(channel_pe_mcm, channel_pe_md).run();
     });
 
-    let _ = thread::spawn(move || {
+    let dm_handle = thread::spawn(move || {
         let channel_dm_mcm = InternalChannel {
             tx: tx_dm1,
             rx: rx_dm1,
@@ -59,14 +69,18 @@ fn install_a_new_pe_dm() -> pe_dm_pair {
         DataManipulator::new(channel_dm_mcm, channel_md_pe).run();
     });
 
-    pe_dm_pair {
-        pe: InternalChannel {
-            tx: tx_mcm1,
-            rx: rx_mcm1,
+    (
+        pe_dm_pair {
+            pe: InternalChannel {
+                tx: tx_mcm1,
+                rx: rx_mcm1,
+            },
+            dm: InternalChannel {
+                tx: tx_mcm2,
+                rx: rx_mcm2,
+            },
         },
-        dm: InternalChannel {
-            tx: tx_mcm2,
-            rx: rx_mcm2,
-        },
-    }
+        pe_handle,
+        dm_handle,
+    )
 }

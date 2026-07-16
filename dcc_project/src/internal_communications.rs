@@ -12,6 +12,9 @@ pub struct pe_dm_pair {
 }
 
 pub enum InternalMessage {
+    EndProgram {
+        sender_id: uuid::Uuid,
+    },
     Text {
         sender_id: uuid::Uuid,
         payload: String,
@@ -21,6 +24,9 @@ pub enum InternalMessage {
 impl std::fmt::Display for InternalMessage {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match &self {
+            InternalMessage::EndProgram { sender_id: i } => {
+                write!(f, "{{message_type: \"EndProgram\", sender_id: {}}}", i)
+            }
             InternalMessage::Text {
                 sender_id: i,
                 payload: p,
