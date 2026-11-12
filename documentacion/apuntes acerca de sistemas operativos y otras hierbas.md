@@ -166,9 +166,17 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
 
 [To:ck, an embedded operating system designed for running multiple concurrent, mutually distrustful applications on low-memory and low-power microcontrollers](https://tockos.org/)
 
+# Algunos enlaces a protocolos de comunicación entre subsistemas
+
+Wayland Architecture for display server:
+- [Wikipedia](https://en.wikipedia.org/wiki/Wayland_(protocol))
+- [Freedesktop](https://wayland.freedesktop.org/docs/book/Introduction.html#the-compositing-manager-as-the-display-server)
+
 # Algunos enlaces a lecturas variadas
 
 [Thoughts on Panicking - ONE-VARIABLE](https://onevariable.com/blog/panicking-thoughts/)
+
+[LanSec: Language-theoretic Security](https://langsec.org/)
 
 # Hardware: arquitecturas de microprocesadores y sistemas
 
@@ -196,7 +204,7 @@ Desde que se enciende el hardware, hasta que el sistema operativo pueda hacerse 
 
 [Arm Cortex‑A710 Core Technical Reference Manual](https://developer.arm.com/documentation/101800/0201/Technical-overview/Core-components)
 
-
+[PDID - Programming and Debugging Interface Disable](https://www.microchip.com/en-us/products/microcontrollers/8-bit-mcus/peripherals/safety-monitoring/pdid)
 
 # Software: bibliotecas Rust
 

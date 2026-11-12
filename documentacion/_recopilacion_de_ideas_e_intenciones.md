@@ -41,15 +41,26 @@ La idea es poder trabajar y compartir información sin miedo a virus ni trojanos
 
 
 
-### Actualizaciones
+### Actualizaciones del sofware residente
 
 - Cada programa ejecutable ha de tener algún modo de verificar la autenticidad de las actualizaciones que reciba. Antes de dejarse sobreescribir, ha de poder probar que los cambios provienen de una fuente conocida de confianza. De una fuente que ya era conocida por el programa antes de la actualización.
 
 - Se han de contemplar dos tipos de equipos:
 
-  - Domésticos: Con algún módulo adicional que permita actualizaciones remotas de los programas en el equipo. Pero requiriendo intervención expresa por parte del usuario para realizarlas (por ejemplo girar una llave o pulsar un botón físico para poner en modo escritura el almacenamiento de los programas residentes).
+  - Domésticos: Con algún módulo adicional que permita actualizaciones remotas de los programas en el equipo. Pero requiriendo intervención expresa por parte del usuario para realizarlas (por ejemplo girar una llave para poner en modo escritura el almacenamiento de los programas residentes).
 
-  - Profesionales: Donde se requerirá acceso físico expreso para actualizar los programas. Por ejemplo, requerir cambiar físicamente el dispositivo de almacenamiento de los programas residentes; o requerir hardware especializado para actualizar el contenido de ese dispositivo.
+  - Profesionales: Donde se requerirá acceso físico expreso para actualizar los programas. Por ejemplo:
+    - Requerir leer desde un almacenamiento físico externo para actualizar el contenido del dispositivo de almacenamiento interno de los programas residentes.
+    - Tener los programas en cartuchos físicos enchufables (actualizar supondria cambiar el cartucho correspondiente).
 
-- ¿Podria haber una tercera vía: equipos como los domésticos pero en los que la comunicación con el módulo adicional requiera otra conexión de red distinta de la de datos?
+- ¿Podria haber una tercera vía: equipos como los domésticos pero en los que la comunicación con el módulo adicional requiera otra conexión de red distinta de la de datos; una conexión LAN específica para servir actualizaciones?
+
+### Desarrollo de nuevo software
+
+Como una máquina DCC es deliberadamente costosa de reprogramar. Desarrollar sofware para la misma puede ser complicado si se realiza sobre la misma máquina. Habrá que prever algún tipo de máquina especializada, no-DCC, dedicada específicamente para esa tarea.
+
+Estas máquinas no-DCC para desarrollo de software:
+- Deberán contar con algún simulador DCC donde se pueda probar/depurar el código según se va desarrollando.
+- No pueden estar conectadas a Internet. Solo se les permitirá una conexión LAN para montar una red privada donde conectar varias máquinas no-DCC en un mismo equipo de desarrollo.
+
 

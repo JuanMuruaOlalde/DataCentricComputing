@@ -1,4 +1,4 @@
-# DCC (Data Centric Computing)
+# Ideas preliminares
 
 
 ## Posibles nombres para el proyecto
@@ -11,7 +11,7 @@
 
 - Data  
   Centric  
-  Computing  
+  Computing  (DCC)
 
 
 ## Ideas clave relacionadas con la seguridad
